@@ -3,14 +3,26 @@ using Xunit;
 
 namespace Problems.Logical.FindNumberAtPositionBySequence;
 
-public class FindNumberAtPositionBySequenceTemplate
+public class FindNumberAtPositionBzhemba
 {
     public int FindNumber(ImmutableArray<int> digits, int position)
     {
-        return 0;
+        var sorted = digits.OrderByDescending(
+            n => n,
+            Comparer<int>.Create((x, y) => 
+            {
+                var xy = x + y.ToString();
+                var yx = y + x.ToString();
+                return String.Compare(xy, yx, StringComparison.Ordinal);
+            })
+        ).ToArray();
+
+        return sorted[position - 1];
     }
 
     [Theory]
+    [InlineData(5, 1, 5)]
+    [InlineData(5, 4, 2)]
     [InlineData(99, 15, 87)]
     [InlineData(99, 28, 75)]
     [InlineData(99, 99, 10)]
